@@ -9,7 +9,15 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Products = () => {
+interface IProducts {
+  category?: string
+  filters?: {}
+  sort?: string
+}
+
+const Products = (props: IProducts) => {
+  const {category, filters, sort } = props;
+
   return (
     <Container>
       {popularProducts.map((item) => (
