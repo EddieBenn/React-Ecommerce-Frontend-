@@ -1,10 +1,13 @@
 import { Add, Remove } from "@material-ui/icons";
-import styled from "styled-components"
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../axios";
 
 const Container = styled.div``;
 
@@ -19,16 +22,16 @@ const ImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%; 
+  width: 100%;
   height: 90vh;
   object-fit: cover;
-  ${mobile({ height: "40vh"})}
+  ${mobile({ height: "40vh" })}
 `;
 
 const InfoContainer = styled.div`
   flex: 1;
   padding: 0px 50px;
-  ${mobile({ padding: "10px"})}
+  ${mobile({ padding: "10px" })}
 `;
 
 const Title = styled.h1`
@@ -49,7 +52,7 @@ const FilterContainer = styled.div`
   justify-content: space-between;
   width: 50%;
   margin: 30px 0px;
-  ${mobile({ width: "100%"})}
+  ${mobile({ width: "100%" })}
 `;
 
 const Filter = styled.div`
@@ -65,7 +68,7 @@ const FilterColor = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: ${(props)=> props.color};
+  background-color: ${(props) => props.color};
   margin: 0px 5px;
   cursor: pointer;
 `;
@@ -82,7 +85,7 @@ const AddContainer = styled.div`
   align-items: center;
   width: 50%;
   justify-content: space-between;
-  ${mobile({ width: "100%"})}
+  ${mobile({ width: "100%" })}
 `;
 
 const AmountContainer = styled.div`
@@ -99,7 +102,7 @@ const Amount = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0px 5px
+  margin: 0px 5px;
 `;
 
 const Button = styled.button`
@@ -110,64 +113,99 @@ const Button = styled.button`
   font-weight: 500;
   transition: all 0.5s ease;
 
-  &:hover{
+  &:hover {
     background-color: #f8f4f4;
     transform: scale(1.2);
   }
 `;
 
+interface ISingleProduct {
+  title?: string;
+  description?: string;
+  categories?: Array<string>;
+  size?: Array<string>;
+  color?: Array<string>;
+  price?: number;
+  image?: string;
+}
+
 const SingleProduct = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState<ISingleProduct>({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/api/product/get-product/" + id);
+        setProduct(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type: string) => {
+    if (type === "decrease") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+
+  }
+   
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg"/>
+          <Image src={product.image} />
         </ImgContainer>
         <InfoContainer>
-          <Title>
-            Denim Jumpsuit
-          </Title>
-          <Desc>The best denim jumpsuit that will keep you warm while looking exceptionally stunning. 
-            Made from high quality materials that are durable, soft and skin-friendly. 
-            It features deep pockets with zippers to hold items should you plan
-            to wear it for activities like capentary and other industral work. 
-            Provides absolute comfort for activities like hiking and wall-climbing. 
-            It is thick to prevent injuries and spacious so that the muscles can relax while carrying out activities. </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.description}</Desc>
+          <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black"/>
-              <FilterColor color="darkblue"/>
-              <FilterColor color="gray"/>
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={()=>setColor(c)}/>
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+              <FilterSize onChange={(e)=>setSize(e.target.value)}>
+                {product.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove
+                type="decrease"
+                onClick={()=>handleQuantity("decrease")}
+              />
+              <Amount>{quantity}</Amount>
+              <Add type="increase" onClick={()=>handleQuantity("increase")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
       <Newsletter />
       <Footer />
     </Container>
-  )
-}
+  );
+};
 
-export default SingleProduct
+export default SingleProduct;

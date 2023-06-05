@@ -1,4 +1,4 @@
-import React, { useState, HTMLAttributes } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
@@ -62,7 +62,7 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Dresses</Title>
+      <Title>{category}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
@@ -77,6 +77,7 @@ const ProductList = () => {
             <Option>yellow</Option>
             <Option>green</Option>
             <Option>grey</Option>
+            <Option>orange</Option>
           </Select>
           <Select name="size" onChange={handleFilters}>
             <Option disabled selected>
