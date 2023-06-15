@@ -72,7 +72,9 @@ const Product = ({item}) => {
       <Image src={item.image} />
       <Info>
         <Icon>
+          <Link to="/cart" style={{textDecoration: "none", color: "black"}}>
           <ShoppingCartOutlined />
+          </Link>
         </Icon>
         <Icon>
           <Link to={`/product/${item._id}`}>

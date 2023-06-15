@@ -3,6 +3,8 @@ import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from '../responsive';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from '../redux/rootReducer';
 
 const Container = styled.div`
   height: 60px;
@@ -67,6 +69,9 @@ const MenuItem = styled.div`
 `
 
 const Navbar = () => {
+  const quantity = useSelector((state: RootState) => state.cart.quantity);
+
+
   return (
     <Container>
       <Wrapper>
@@ -85,11 +90,13 @@ const Navbar = () => {
         <Right>
           <MenuItem>Register</MenuItem>
           <MenuItem>Login</MenuItem>
+          <Link to="/cart">
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+            <Badge badgeContent={quantity} color="primary">
               <ShoppingCartOutlined />
             </Badge>
           </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>
@@ -97,3 +104,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+function state(state: unknown): unknown {
+  throw new Error("Function not implemented.");
+}
+
