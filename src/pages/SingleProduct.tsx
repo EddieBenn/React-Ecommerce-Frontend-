@@ -8,7 +8,7 @@ import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../axios";
-import { addProduct } from "../redux/cartRedux";
+import { addProduct } from "../redux/cartSlice";
 import { useDispatch } from "react-redux";
 
 const Container = styled.div``;

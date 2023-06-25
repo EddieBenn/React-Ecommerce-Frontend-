@@ -1,13 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from './rootReducer';
+import rootReducer from "./rootReducer";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-// export interface CartState {
-//     products: Array<string | number>,
-//     quantity: number,
-//     total: number,
-// }
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: rootReducer,
-})
+  reducer: persistedReducer,
+});
+
+export const persistor = persistStore(store);
