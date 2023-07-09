@@ -8,6 +8,9 @@ import { RootState } from '../redux/rootReducer';
 
 const Container = styled.div`
   height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   ${mobile({ height: "50px"})};
 `;
 
