@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Success from "./pages/Success";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/rootReducer";
+import AdminDashboard from "./admin/adminRoutes/adminApp";
 
 const App = () => {
   const user = useSelector((state: RootState) => state.user.currentUser);
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/product/:id" element={<SingleProduct />}/>
         <Route path="/cart" element={<Cart />}/>
         <Route path="/success" element={<Success />}/>
+        <Route path="/dashboard/*" element={<AdminDashboard />}/>
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register />}/>
       </Routes>
