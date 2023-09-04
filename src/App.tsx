@@ -12,7 +12,10 @@ import { RootState } from "./redux/rootReducer";
 import AdminDashboard from "./admin/adminRoutes/adminApp";
 
 const App = () => {
-  const user = useSelector((state: RootState) => state.user.currentUser);
+
+  const token = localStorage.getItem('token')
+
+  const user = useSelector((state:RootState) => state.userLogin.currentUser)
   
   return (
     <Router> 
@@ -22,9 +25,9 @@ const App = () => {
         <Route path="/product/:id" element={<SingleProduct />}/>
         <Route path="/cart" element={<Cart />}/>
         <Route path="/success" element={<Success />}/>
-        <Route path="/dashboard/*" element={<AdminDashboard />}/>
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
-        <Route path="/register" element={user ? <Navigate to="/" /> : <Register />}/>
+        <Route path="/dashboard/*" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to="/" />}/>
+        <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login />}/>
+        <Route path="/register" element={token ? <Navigate to="/dashboard" /> : <Register />}/>
       </Routes>
     </Router>
   )

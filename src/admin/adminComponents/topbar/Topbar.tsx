@@ -8,7 +8,7 @@ export default function Topbar() {
     <div className="topbar">
       <div className="topbarWrapper">
         <div className="topLeft">
-          <Link to="/" className="link">
+          <Link to="/dashboard" className="link">
             <span className="logo">SmileMart Admin</span>
           </Link>
         </div>

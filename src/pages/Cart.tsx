@@ -171,15 +171,6 @@ const Button = styled.button`
 
 const Key = process.env.REACT_APP_STRIPE_KEY;
 
-// const MyButton = () => {
-//   return (
-//     <Button>
-//       CHECK OUT NOW
-//     </Button>
-//   );
-// };
-
-
 const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const [stripeToken, setStripeToken] = useState(null)
@@ -201,8 +192,9 @@ const Cart = () => {
         console.log(error)
       }
     }
-    stripeToken && makeRequest();
+    stripeToken && cart.total >= 1 && makeRequest();
   }, [stripeToken, cart.total, navigate])
+
   return (
     <Container>
       <Navbar />
@@ -225,7 +217,7 @@ const Cart = () => {
                 <Image src={product.image}/>
                 <Details>
                   <ProductName><b>Product:</b> {product.title}</ProductName>
-                  <ProductId><b>ID</b> {product._id}</ProductId>
+                  <ProductId><b>ID:</b> {product._id}</ProductId>
                   <ProductColor color={product.color}/>
                   <ProductSize><b>Size:</b>{product.size}</ProductSize>
                 </Details>

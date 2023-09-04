@@ -126,7 +126,7 @@ const Footer = () => {
           <MailOutline style={{marginRight: "10px"}}/>
             support@smilemart.store
         </ContactItems>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png"/>
+        <Payment src="https://res.cloudinary.com/dixoaggbe/image/upload/v1693240564/-11597193844xtj2mnv37b-removebg-preview_vf85lz.png"/>
       </Right>
     </Container>
   );

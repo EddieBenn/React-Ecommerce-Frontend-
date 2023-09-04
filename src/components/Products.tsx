@@ -33,7 +33,7 @@ const Products = (props: IProducts) => {
         );
         setProducts(res.data.products ?? []);
       } catch (error) {
-        console.log(error);
+        error;
       }
     };
     getProducts();

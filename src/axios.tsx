@@ -1,14 +1,29 @@
 import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2QzZDkwYmIyNDI4ZWNkY2MxZDViNjQiLCJlbWFpbCI6ImJlbm4yMjJAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjgzOTgyODY5LCJleHAiOjE2ODQyNDIwNjl9.zBVUlmMY5iXGx7_ilwmdED5rntMVysrSfwvBiaIjiis";
+const TOKEN = localStorage.getItem("token")
+
 
 export const publicRequest = axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+});
+
+export const publicRequest2 = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    }
 });
 
 export const userRequest = axios.create({
     baseURL: BASE_URL,
-    headers: {token: `Bearer ${TOKEN}`}
+    headers: {authorization: `Bearer ${TOKEN}` }
 })
 
+export const userRequest2 = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+        authorization: `Bearer ${TOKEN}`,
+        'Content-Type': 'multipart/form-data',
+    }
+});

@@ -17,7 +17,7 @@ function adminDashboard() {
       <div className="container">
         <Sidebar />
         <Routes>
-          <Route path="" element={<AdminHome />} />
+          <Route path="/" element={<AdminHome />} />
           <Route path="/users" element={<UserList />} />
           <Route path="/user/:userId" element={<User />} />
           <Route path="/newUser" element={<NewUser />} />

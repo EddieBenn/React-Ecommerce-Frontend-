@@ -4,6 +4,7 @@ import { useState } from "react";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -81,12 +82,15 @@ const Link = styled.a`
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state: RootState) => state.user);
+  const { isFetching, error } = useSelector((state: RootState) => state.userLogin);
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+    const user = { username, password };
+    login(dispatch, user);
   };
+
   return (
     <Container>
       <Wrapper>

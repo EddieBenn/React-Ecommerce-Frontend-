@@ -7,14 +7,18 @@ import { useSelector } from "react-redux";
 import { RootState } from '../redux/rootReducer';
 
 const Container = styled.div`
+  width: 100%;
   height: 60px;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  background-color: color;
+  position: relative;
   ${mobile({ height: "50px"})};
 `;
 
 const Wrapper = styled.div`
+  height: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -74,6 +78,9 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const quantity = useSelector((state: RootState) => state.cart.quantity);
 
+  const user = useSelector((state:RootState) => state.userLogin.currentUser)
+
+  const isLogged = ! (user === null || user === "undefined" || user === "")
 
   return (
     <Container>
@@ -91,12 +98,16 @@ const Navbar = () => {
           </Link>
         </Center>
         <Right>
+        {!isLogged &&
+        <>
           <Link to={"/register"} style={{textDecoration: "none", color: "black"}}>
           <MenuItem>Register</MenuItem>
           </Link>
           <Link to={"/login"} style={{textDecoration: "none", color: "black"}}>
           <MenuItem>Login</MenuItem>
           </Link>
+        </>
+        }
           <Link to="/cart">
           <MenuItem>
             <Badge badgeContent={quantity} color="primary">
